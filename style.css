@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#gridContainer {
+  display: grid;
+  margin: 20px auto;
+
+}
+
+.cell {
+  width: 20px;              
+  height: 20px;             
+  background-color: #fff;   
+  border: 1px solid #ddd;   
+  box-sizing: border-box;   
+}
+
+.cell.alive {
+  background-color: #000;
+}
+
+#controls {
+  text-align: center;
+  margin: 10px auto;
+}
+#controls button,
+#controls input[type="range"] {
+  margin: 0 5px;
+}
