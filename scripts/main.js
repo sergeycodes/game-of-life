@@ -1,5 +1,3 @@
-// scripts/main.js
-
 import { createGrid, drawGrid, renderGrid } from './grid.js';
 import { nextGeneration }                from './logic.js';
 import { initControls }                  from './controls.js';
