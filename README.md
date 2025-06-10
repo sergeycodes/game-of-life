@@ -1,5 +1,13 @@
 # Conway’s Game of Life
 
+## About this Project
+
+I first heard of Conway’s Game of Life before majoring in Computer Science, when I was taking math classes. 
+It shows how complex patterns can stabalize and how simple patterns can turn unstable. 
+As a zero-player game, you set the starting cells and simply observe the evolution.
+
+---
+
 A client-side implementation of John Conway’s classic cellular automaton:
 
 > "Game of Life" simulates an infinite grid of cells that live, die, or multiply based on simple rules:
@@ -55,4 +63,5 @@ game-of-life/
 
 ## Future Development
 
-Add a button that shows common cell structures like spaceships and shooters
+* Add a button that shows common cell structures like spaceships and shooters
+* explore different grid configurations, where if a cell reaches a border it travels to opposite side of grid
