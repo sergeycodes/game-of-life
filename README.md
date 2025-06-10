@@ -52,12 +52,15 @@ game-of-life/
     ├── grid.js         # Grid creation & rendering
     ├── logic.js        # Conway’s next-generation rules
     ├── controls.js     # Button wiring
+    ├── storage.js      # Stores user's grid in localstorage
     └── main.js         # App initialization & event handling
 ```
 
-* **grid.js**: Defines `ROWS`, `COLS` and draws/renders the 100×100 cell grid.
-* **logic.js**: Exports `nextGeneration(grid)` applying Conway’s rules.
-* **controls.js**: Exports \`initControl
+- **grid.js**: Defines `ROWS`, `COLS` and draws/renders the 100×100 cell grid.
+- **logic.js**: Exports `nextGeneration(grid)` applying Conway’s rules.
+- **controls.js**: Exports `initControls({ onStart, onPause, onClear })` to give buttons functionality.  
+- **storage.js**: Exports `saveState(grid, generation)` and `loadState()` to store in `localStorage`.  
+- **main.js**: Loads all js files and makes sure everything is running.
 
 ---
 
@@ -65,3 +68,4 @@ game-of-life/
 
 * Add a button that shows common cell structures like spaceships and shooters
 * explore different grid configurations, where if a cell reaches a border it travels to opposite side of grid
+* create a speed slider that changes the speed of the generation 
