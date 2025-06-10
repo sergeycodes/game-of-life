@@ -1,16 +1,18 @@
-import { createGrid, drawGrid, renderGrid } from './grid.js';
-import { nextGeneration } from './logic.js';
-import { initControls } from './controls.js';
-import { saveState, loadState } from './storage.js';
+import { createGrid, drawGrid, renderGrid } from "./grid.js";
+import { nextGeneration } from "./logic.js";
+import { initControls } from "./controls.js";
+import { saveState, loadState } from "./storage.js";
 
-let grid, generation = 0, intervalId = null;
+let grid,
+  generation = 0,
+  intervalId = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // Initialize grid
   grid = createGrid();
-  const container = document.getElementById('grid-container');
+  const container = document.getElementById("grid-container");
   if (!container) {
-    console.error('Missing #grid-container!');
+    console.error("Missing #grid-container!");
     return;
   }
   // Try to load previous state; otherwise start fresh
@@ -28,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderGrid(grid);
 
   // Toggle cell on click
-  container.addEventListener('click', e => {
-    if (!e.target.classList.contains('cell')) return;
+  container.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("cell")) return;
     const r = +e.target.dataset.row;
     const c = +e.target.dataset.col;
     grid[r][c] ^= 1;
@@ -39,29 +41,29 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Modal elements for Explanation popup
-  const infoModal = document.getElementById('info-modal');
-  const infoCloseBtn = document.getElementById('info-close');
-  const infoOverlay = document.getElementById('info-overlay');
-  const explanationBtn = document.getElementById('explanationBtn');
+  const infoModal = document.getElementById("info-modal");
+  const infoCloseBtn = document.getElementById("info-close");
+  const infoOverlay = document.getElementById("info-overlay");
+  const explanationBtn = document.getElementById("explanationBtn");
 
   // Show explanation modal
-  explanationBtn.addEventListener('click', () => {
-    infoModal.classList.remove('hidden');
+  explanationBtn.addEventListener("click", () => {
+    infoModal.classList.remove("hidden");
   });
 
   // Close modal when clicking close button or overlay
-  infoCloseBtn.addEventListener('click', () => {
-    infoModal.classList.add('hidden');
+  infoCloseBtn.addEventListener("click", () => {
+    infoModal.classList.add("hidden");
   });
-  infoOverlay.addEventListener('click', () => {
-    infoModal.classList.add('hidden');
+  infoOverlay.addEventListener("click", () => {
+    infoModal.classList.add("hidden");
   });
 
   // Cache control buttons and counter
-  const startBtn = document.getElementById('startBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const genCounter = document.getElementById('generation-counter');
+  const startBtn = document.getElementById("startBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const genCounter = document.getElementById("generation-counter");
 
   // Hook up Start/Pause/Clear via controls module
   initControls({
@@ -107,11 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
       saveState(grid, generation);
       startBtn.disabled = false;
       pauseBtn.disabled = true;
-    }
+    },
   });
 });
 
 /** Return true if at least one cell in the grid is alive */
 function hasAliveCells(grid) {
-  return grid.some(row => row.some(cell => cell === 1));
+  return grid.some((row) => row.some((cell) => cell === 1));
 }

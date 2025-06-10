@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'lifeGameState';
+const STORAGE_KEY = "lifeGameState";
 
 // Save the current grid array to localStorage.
 export function saveState(grid, generation) {
@@ -6,7 +6,7 @@ export function saveState(grid, generation) {
     const state = { grid, generation };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch (e) {
-    console.warn('Failed to save state:', e);
+    console.warn("Failed to save state:", e);
   }
 }
 
@@ -20,11 +20,11 @@ export function loadState() {
     if (!saved) return null;
     const { grid, generation } = JSON.parse(saved);
     // Validate structure
-    if (Array.isArray(grid) && typeof generation === 'number') {
+    if (Array.isArray(grid) && typeof generation === "number") {
       return { grid, generation };
     }
   } catch (e) {
-    console.warn('Failed to load state:', e);
+    console.warn("Failed to load state:", e);
   }
   return null;
 }

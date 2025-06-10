@@ -1,57 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Game of Life</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game of Life</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <header id="app-header">
       <h1>Game of Life</h1>
     </header>
 
-  <div id="controls">
-    <button id="explanationBtn">Explanation</button>
-    <button id="startBtn">Start</button>
-    <button id="pauseBtn">Pause</button>
-    <button id="clearBtn">Clear</button>
-  </div>
-
-  <div id="info-modal" class="hidden">
-    <div id="info-overlay"></div>
-    <div id="info-content">
-      <button id="info-close">&times;</button>
-      <h2>About Conway’s Game of Life</h2>
-      <p>
-        Conway’s Game of Life is a zero-player game invented by John Conway in 1970.
-        It consists of an infinite grid of cells which, based on simple rules,
-        can live, die, or multiply. Each cell’s fate is determined by its eight neighbors:
-      </p>
-      <ul>
-        <li><strong>Underpopulation:</strong> A live cell with fewer than two live neighbors dies.</li>
-        <li><strong>Survival:</strong> A live cell with two or three live neighbors lives on.</li>
-        <li><strong>Overpopulation:</strong> A live cell with more than three live neighbors dies.</li>
-        <li><strong>Reproduction:</strong> A dead cell with exactly three live neighbors becomes alive.</li>
-      </ul>
-      <p>
-        Despite its simple rules, the Game of Life produces complex
-        patterns, oscillators, and even self-replicating structures.
-      </p>
-      <p>
-        <strong>Complexity vs Simplicity: </strong>The Game of Life raises questions about the nature 
-        of complexity, order, and chaos.It demonstrates that order can emerge from disorder and that 
-        seemingly simple rules can lead to unpredictable outcomes. 
-        It has applications in computer science, mathematics, and even philosophy.
-      </p>
+    <div id="controls">
+      <button id="explanationBtn">Explanation</button>
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="clearBtn">Clear</button>
     </div>
-  </div>
+
+    <div id="info-modal" class="hidden">
+      <div id="info-overlay"></div>
+      <div id="info-content">
+        <button id="info-close">&times;</button>
+        <h2>About Conway’s Game of Life</h2>
+        <p>
+          Conway’s Game of Life is a zero-player game invented by John Conway in
+          1970. It consists of an infinite grid of cells which, based on simple
+          rules, can live, die, or multiply. Each cell’s fate is determined by
+          its eight neighbors:
+        </p>
+        <ul>
+          <li>
+            <strong>Underpopulation:</strong> A live cell with fewer than two
+            live neighbors dies.
+          </li>
+          <li>
+            <strong>Survival:</strong> A live cell with two or three live
+            neighbors lives on.
+          </li>
+          <li>
+            <strong>Overpopulation:</strong> A live cell with more than three
+            live neighbors dies.
+          </li>
+          <li>
+            <strong>Reproduction:</strong> A dead cell with exactly three live
+            neighbors becomes alive.
+          </li>
+        </ul>
+        <p>
+          Despite its simple rules, the Game of Life produces complex patterns,
+          oscillators, and even self-replicating structures.
+        </p>
+        <p>
+          <strong>Complexity vs Simplicity: </strong>The Game of Life raises
+          questions about the nature of complexity, order, and chaos.It
+          demonstrates that order can emerge from disorder and that seemingly
+          simple rules can lead to unpredictable outcomes. It has applications
+          in computer science, mathematics, and even philosophy.
+        </p>
+      </div>
+    </div>
 
     <div id="grid-wrapper">
       <span id="generation-counter">Generation: 0</span>
       <div id="grid-container"></div>
     </div>
 
-  <script type="module" src="scripts/main.js"></script>
-</body>
+    <script type="module" src="scripts/main.js"></script>
+  </body>
 </html>
