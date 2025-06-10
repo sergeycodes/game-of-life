@@ -1,34 +1,69 @@
+/* style.css */
+
 body {
-    margin: 0;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#gridContainer {
-  display: grid;
-  margin: 20px auto;
-
+#app-header {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.cell {
-  width: 20px;              
-  height: 20px;             
-  background-color: #fff;   
-  border: 1px solid #ddd;   
-  box-sizing: border-box;   
-}
-
-.cell.alive {
-  background-color: #000;
+#app-header h1 {
+  margin: 0;
+  font-size: 2.5rem;      
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 1px;
 }
 
 #controls {
-  text-align: center;
-  margin: 10px auto;
+  margin: 10px;
+  font-family: sans-serif;
 }
-#controls button,
-#controls input[type="range"] {
+#controls button {
   margin: 0 5px;
+  padding: 5px 10px;
+}
+
+#grid-wrapper {
+  position: relative;
+  display: inline-block; /* shrink-wrap to the grid size */
+}
+
+#generation-counter {
+  position: absolute;
+  top: -0.25rem;      /* adjust to sit just above the grid */
+  left: 0;
+  font-family: sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.8);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-columns: repeat(100, 10px);
+  grid-template-rows: repeat(100, 10px);
+  gap: 1px;
+  background: #eee;
+  margin: 20px 0;
+}
+
+.cell {
+  width:        10px;
+  height:       10px;
+  background:   #fff;
+  border:       1px solid #ddd;
+  box-sizing:   border-box;
+}
+.cell.alive {
+  background:   #000;
 }

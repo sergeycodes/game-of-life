@@ -1,84 +1,102 @@
-import { createEmptyGrid, buildGrid, updateGridDisplay } from "./grid.js";
+// main.js
 
-import { computeNextGeneration, seedRandom } from "./logic.js";
+import { createGrid, drawGrid, renderGrid } from './grid.js';
+import { nextGeneration }                from './logic.js';
+import { initControls }                  from './controls.js';
 
-import { saveState, loadState } from "./storage.js";
+let grid, generation = 0, intervalId = null;
 
-import { initControls } from "./controls.js";
+// License URL constant
+const LICENSE_URL = 'https://creativecommons.org/licenses/by-sa/3.0/';
+const LICENSE_TEXT = 'This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0).  Read more at:';
 
-let grid = createEmptyGrid();
-let gameInterval = null;
-
-/**
- * Called once DOM is loaded. 1) Load any saved state, 2) build grid, 3) init controls.
- */
-document.addEventListener("DOMContentLoaded", () => {
-  // 1) Attempt to load saved state from localStorage
-  const saved = loadState();
-  if (saved && Array.isArray(saved.grid)) {
-    grid = saved.grid;
-    // Optionally set the speed slider from saved.speed:
-    document.getElementById("speedSlider").value = saved.speed;
+document.addEventListener('DOMContentLoaded', () => {
+  // 1) Initialize grid data & DOM
+  grid = createGrid();
+  const container = document.getElementById('grid-container');
+  if (!container) {
+    console.error('Missing #grid-container!');
+    return;
   }
+  drawGrid(container);
+  renderGrid(grid);
 
-  // 2) Build the grid in the DOM (painting saved cells if any)
-  buildGrid(grid);
-
-  // 3) Initialize controls with their callbacks
-  initControls({
-    onStart: handleStart,
-    onPause: handlePause,
-    onClear: handleClear,
-    onSeedRandom: handleSeedRandom,
-    onSpeed: handleSpeedChange,
+  // 2) Delegate clicks on cells
+  container.addEventListener('click', e => {
+    if (!e.target.classList.contains('cell')) return;
+    const r = +e.target.dataset.row;
+    const c = +e.target.dataset.col;
+    grid[r][c] ^= 1;
+    renderGrid(grid);
   });
 
-  updateGridDisplay(grid);
+  // 3) Add Explanation & Lexicon buttons
+  const explanationBtn = document.getElementById('explanationBtn');
+  const lexiconBtn    = document.getElementById('lexiconBtn');
+  explanationBtn.addEventListener('click', () => {
+    alert(`${LICENSE_TEXT}\n${LICENSE_URL}`);
+  });
+  lexiconBtn.addEventListener('click', () => {
+    window.open(LICENSE_URL, '_blank');
+  });
+
+  // 4) Cache Start/Pause/Clear buttons & counter
+  const startBtn   = document.getElementById('startBtn');
+  const pauseBtn   = document.getElementById('pauseBtn');
+  const clearBtn   = document.getElementById('clearBtn');
+  const genCounter = document.getElementById('generation-counter');
+
+  // 5) Wire up controls with callbacks
+  initControls({
+    onStart:  () => {
+      if (intervalId != null) return;
+      // Reset generation on each start
+      generation = 0;
+      genCounter.textContent = `Generation: ${generation}`;
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+
+      intervalId = setInterval(() => {
+        grid = nextGeneration(grid);
+        renderGrid(grid);
+        generation++;
+        genCounter.textContent = `Generation: ${generation}`;
+
+        if (!hasAliveCells(grid)) {
+          clearInterval(intervalId);
+          intervalId = null;
+          startBtn.disabled = false;
+          pauseBtn.disabled = true;
+        }
+      }, 100);
+    },
+
+    onPause:  () => {
+      clearInterval(intervalId);
+      intervalId = null;
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+    },
+
+    onClear:  () => {
+      clearInterval(intervalId);
+      intervalId = null;
+      generation = 0;
+      genCounter.textContent = `Generation: ${generation}`;
+      grid = createGrid();
+      renderGrid(grid);
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+    }
+  });
 });
 
-/** Start the game loop (advance every “speed” ms). */
-function handleStart() {
-  if (gameInterval) return; // already running
-
-  const speedMs = Number(document.getElementById("speedSlider").value);
-  gameInterval = setInterval(() => {
-    grid = computeNextGeneration(grid);
-    updateGridDisplay(grid);
-    saveState(grid, speedMs);
-  }, speedMs);
-}
-
-function handlePause() {
-  if (gameInterval) {
-    clearInterval(gameInterval);
-    gameInterval = null;
+/** Return true if at least one cell in the grid is alive (1). */
+function hasAliveCells(grid) {
+  for (let r = 0; r < grid.length; r++) {
+    for (let c = 0; c < grid[r].length; c++) {
+      if (grid[r][c] === 1) return true;
+    }
   }
-}
-
-/** Clear the grid completely (all-dead) and repaint. */
-function handleClear() {
-  handlePause(); // ensure it’s not running
-  grid = createEmptyGrid(); // brand-new grid
-  updateGridDisplay(grid);
-  saveState(grid, Number(document.getElementById("speedSlider").value));
-}
-
-function handleSeedRandom() {
-  handlePause();
-  grid = createEmptyGrid();
-  seedRandom(grid, 0.2); // e.g. 20% cells alive
-  updateGridDisplay(grid);
-  saveState(grid, Number(document.getElementById("speedSlider").value));
-}
-
-/** When speed slider changes, restart the interval if running. */
-function handleSpeedChange(newSpeedMs) {
-  if (gameInterval) {
-    clearInterval(gameInterval);
-    gameInterval = setInterval(() => {
-      grid = computeNextGeneration(grid);
-      updateGridDisplay(grid);
-      saveState(grid, newSpeedMs);
-    }, newSpeedMs);
-  }
+  return false;
 }
